@@ -7,8 +7,8 @@ function SidePanel({className}) {
     return (
         <div className = {`${className} ${cssFile.wrapper}`}>
             
-            <div className="clock">{(hass.states["sensor.time"].state)}</div>
-            <div className={cssFile.clock}>{(hass.states["sensor.date"].state)}</div>
+            <div className={cssFile.clock}>{(hass.states["sensor.time"].state)}</div>
+            <div className={cssFile.date}>{(hass.states["sensor.date"].state)}</div>
             <div></div>
         </div>
     )
