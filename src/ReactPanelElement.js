@@ -32,7 +32,8 @@ export default ReactPanel => class extends HTMLElement {
 
     this._renderScheduled = Promise.resolve().then(() => {
       this._renderScheduled = null;
-      ReactDOM.render(React.createElement(ReactPanel, {
+      ReactDOM.render(
+        React.createElement(ReactPanel, {
         hass: this._hass,
         showMenu: this._showMenu,
         narrow: this._narrow,

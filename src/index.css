@@ -1,5 +1,33 @@
+:root {
+  --transitionDelay: 0.3s;
+  --borderRadius: 0.3rem;
+
+  --BrandColor: #284e80;
+  --PrimaryBackground: #fff;
+  --SecondaryBackground: #fafafa;
+  --PrimaryForeground: #141414;
+  --SecondaryForeground: #707070;
+  --alert: #bf2012;
+  --action: #1c6bba;
+  --inverted: #ffffff;
+
+  --border: #d5d5d5;
+  --divider: #ebebeb;
+  
+  --headerHight: 6rem;
+
+}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+html{
+  font-size: 62.5%;
+}
 body {
+  font-family: 'open sans';
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+
 }
+* {
+  box-sizing: border-box;
+}
+
