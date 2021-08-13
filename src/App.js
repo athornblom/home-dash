@@ -4,6 +4,15 @@ import EntityRow from './components/EntityRow.js';
 import { Route, Switch, BrowserRouter } from 'react-router-dom'
 import HomeOverview from './views/HomeOverview';
 import Store from './hooks/Store';
+import {createTheme, ThemeProvider} from '@material-ui/core'
+
+const theme = createTheme({
+ 
+  typography: {
+    fontFamily: 'poppins'
+  }
+})
+
 function App({hass, showMenu, narrow, panel}) {
     // /* eslint-disable no-unused-vars */
     // const {

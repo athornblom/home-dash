@@ -1,13 +1,12 @@
-const path = require('path')
-const webpack = require('webpack')
-const package = require('./package.json')
-const ip = require('ip')
+const path = require('path');
 
-const isProd = process.env.NODE_ENV === 'production'
-const publicPath = isProd
-    ? package.panelServingUrl
-    : `http://${ip.address()}:8080/`
-const buildPath = path.resolve(__dirname, 'dist')
+const webpack = require('webpack');
+
+const package = require('./package.json');
+
+const isProd = process.env.NODE_ENV === 'production';
+const publicPath = isProd ? package.panelServingUrl : 'http://localhost:8080/';
+const buildPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
     mode: isProd ? 'production' : 'development',
@@ -47,29 +46,14 @@ module.exports = {
         }),
     ],
     output: {
-        filename: '[name].js',
-        chunkFilename: '[name].chunk.js',
-        path: buildPath,
-        publicPath,
+      filename: '[name].js',
+      
+      chunkFilename: '[name].chunk.js',
+      path: buildPath,
+      publicPath,
     },
     devServer: {
-        contentBase: buildPath,
-        host: '0.0.0.0',
-        port: 8080,
-        disableHostCheck: true,
-        https: false,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods':
-                'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-            'Access-Control-Allow-Headers':
-                'X-Requested-With, content-type, Authorization',
-        },
-    },
-    resolve: {
-        alias: {
-            react: path.resolve('./node_modules/react'),
-            '@emotion/react': path.resolve('./node_modules/@emotion/react'),
-        },
-    },
+      contentBase: buildPath,
+      disableHostCheck: true,
+    }
 }
