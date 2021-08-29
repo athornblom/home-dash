@@ -26,24 +26,25 @@ import ViewSelector from './ViewSelector';
 import { HomeAssistant, LockOpen } from 'mdi-material-ui';
 import { SecurityOutlined } from '@material-ui/icons';
 
-import thomas from './../../public/img/avatars/thomas.png'
-import arthur from './../../public/img/avatars/arthur.png'
-import taylor from './../../public/img/avatars/taylor.png'
 
 const drawerWidth = 260;
 
 const useStyles = makeStyles((theme, mobileOpen) => ({
   root: {
     display: 'flex',
+    height: '100vh',
+    minWidth: '300px',
+
   },
   drawer: {
-    width: "100%",
+    // width: "100%",
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
+
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -75,6 +76,7 @@ const useStyles = makeStyles((theme, mobileOpen) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+
   },
   drawerGrid: {
     height: "100vh",
@@ -85,15 +87,26 @@ const useStyles = makeStyles((theme, mobileOpen) => ({
   gridBox: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
+  },
+  pageContainer:{
+    height: `calc(100% - 56px)`,
+    [`${theme.breakpoints.up('xs')} and (orientation: landscape)`]: {
+      height: `calc(100% - 48px)`,
+    },
+    [theme.breakpoints.up('sm')]: {
+      height: `calc(100% - 64px)`,
+    }
   }
+
 }));
 
 function ResponsiveDrawer({ window, children }) {
   const [mobileOpen, setMobileOpen] = useState();
   const classes = useStyles(mobileOpen);
-  const [hass, setHass] = useContext(HassObj)
+  const [store, setStore] = useContext(HassObj)
   const theme = useTheme();
-
+  const xsDevice = useMediaQuery(theme.breakpoints.down('xs'))
+  const smDevice = useMediaQuery(theme.breakpoints.down('sm'))
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -117,10 +130,10 @@ function ResponsiveDrawer({ window, children }) {
       <Grid container direction="column" justifyContent="space-between" className={classes.drawerGrid}>
         <Grid item className={classes.gridBox}>
           <Typography align="center" variant="h2">
-            {(hass.states["sensor.time"].state)}
+            {(store.hass.states["sensor.time"].state)}
           </Typography>
           <Typography color="textSecondary" align="center" variant="h6">
-            {(hass.states["sensor.date"].state)}
+            {(store.hass.states["sensor.date"].state)}
           </Typography>
         </Grid>
 
@@ -147,7 +160,7 @@ function ResponsiveDrawer({ window, children }) {
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar >
           <IconButton
             color="inherit"
             edge="start"
@@ -156,38 +169,36 @@ function ResponsiveDrawer({ window, children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Grid container>
-            <Grid item xs={4}>
-              <Typography variant="h3" noWrap>
-                {hass.config.location_name}
+          <Grid container alignItems='center'>
+            <Grid item xs={3}>
+              <Typography variant="h4" noWrap>
+                {store.hass.config.location_name}
               </Typography>
             </Grid>
-            <Grid item xs={8} container alignItems='center' justifyContent='flex-end' spacing={2}>
+            <Grid  item xs={9} container alignItems='center' justifyContent='flex-end'>
               <Grid item>
                 <IconButton>
                 <Typography>
-                  {hass.states["sensor.hallen_rorelsedeckare_temperature"].state + hass.config.unit_system.temperature}
+                  {store.hass.states["sensor.motion_hallway_temp"].state + store.hass.config.unit_system.temperature}
                 </Typography>
                 </IconButton>
               </Grid>
               <Grid item>
-              <AvatarGroup max={4}>
-                <Avatar alt="Remy Sharp" src={thomas} />
-                <Avatar alt="Travis Howard" src={arthur} />
-                <Avatar alt="Cindy Baker" src={taylor} />
-                <Avatar alt="Agnes Walker" src={thomas} />
-                <Avatar alt="Trevor Henderson" src={thomas} />
+              <AvatarGroup max={smDevice ? (xsDevice ? 2 : 3) : 5}>
+                <Avatar alt="Remy Sharp" src={"/local/home-dash/img/avatars/thomas.png"} />
+                <Avatar alt="Travis Howard" src={"/local/home-dash/img/avatars/arthur.png"} />
+                <Avatar alt="Cindy Baker" src={"/local/home-dash/img/avatars/taylor.png"} />
+                <Avatar alt="Agnes Walker" src={"/local/home-dash/img/avatars/thomas.png"} />
+                <Avatar alt="Trevor Henderson" src={"/local/home-dash/img/avatars/thomas.png"} />
               </AvatarGroup>
               </Grid>
 
             </Grid>
 
           </Grid>
-
-
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} >
+      <nav className={`${classes.drawer}`} >
         <Hidden smUp >
           <Drawer
             container={container}
@@ -205,7 +216,7 @@ function ResponsiveDrawer({ window, children }) {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown>
+        <Hidden xsDown >
           <Drawer
             classes={{
               paper: classes.drawerPaper,
@@ -220,7 +231,11 @@ function ResponsiveDrawer({ window, children }) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {children}
+        <div className={classes.pageContainer}>
+         {children}   
+        </div>
+             
+                
       </main>
     </div>
   );

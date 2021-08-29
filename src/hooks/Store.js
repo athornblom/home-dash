@@ -5,10 +5,10 @@ const initialState = {name: 'allan ballan'};
 
 export const HassObj = React.createContext();
 
-const Store = ({hass,children}) => {
-    const [state, setSate] = useState(hass)
+const Store = ({hass,panel,children}) => {
+    const [state, setSate] = useState({ hass: hass,panel: panel})
     useEffect(() =>{
-        setSate(hass)
+        setSate({ hass: hass,panel: panel})
     },[hass])
 
     return (
