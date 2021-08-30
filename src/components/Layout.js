@@ -23,8 +23,9 @@ import { HassObj } from '../hooks/Store';
 import { useContext } from 'react';
 import PersonIcon from '@material-ui/icons/Person';
 import ViewSelector from './ViewSelector';
-import { HomeAssistant, LockOpen } from 'mdi-material-ui';
+import { HomeAssistant, LockOpen, Lock } from 'mdi-material-ui';
 import { SecurityOutlined } from '@material-ui/icons';
+import HassIconButton from './hassIconButton';
 
 
 const drawerWidth = 260;
@@ -96,6 +97,13 @@ const useStyles = makeStyles((theme, mobileOpen) => ({
     [theme.breakpoints.up('sm')]: {
       height: `calc(100% - 64px)`,
     }
+  },
+  buttonOff:{
+    color: theme.palette.error.main
+  },
+  buttonOn:{
+    color: theme.palette.success.main
+
   }
 
 }));
@@ -142,10 +150,14 @@ function ResponsiveDrawer({ window, children }) {
         </Grid>
 
         <Grid item direction="row" justifyContent="center" alignItems="center" container className={classes.gridBox}>
-          <Grid item><IconButton><HomeAssistant /></IconButton></Grid>
-          <Grid item><IconButton><SecurityOutlined /></IconButton></Grid>
-          <Grid item><IconButton><PersonIcon /></IconButton></Grid>
-          <Grid item><IconButton><LockOpen /></IconButton></Grid>
+          {/* <Grid item><IconButton className={store.hass.states["input_boolean.ai_home"].state === "off" ? classes.buttonOff : classes.buttonOn}><HomeAssistant /></IconButton></Grid> */}
+          <Grid item> <HassIconButton stateObj={store.hass.states["input_boolean.ai_home"]}> <HomeAssistant /> </HassIconButton></Grid>
+          <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
+          <Grid item> <HassIconButton stateObj={store.hass.states["input_boolean.person_detection"]}> <PersonIcon /> </HassIconButton></Grid>
+          <Grid item> <HassIconButton stateObj={store.hass.states["input_boolean.guest_mode"]} lockedIcon={<Lock/>}> <LockOpen /> </HassIconButton></Grid>
+          {/* <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
+          <Grid item><IconButton className={store.hass.states["input_boolean.person_detection"].state === "off" ? classes.buttonOff : classes.buttonOn}><PersonIcon /></IconButton></Grid>
+          <Grid item><IconButton className={store.hass.states["input_boolean.guest_mode"].state === "on" ? classes.buttonOff : classes.buttonOn}>{store.hass.states["input_boolean.guest_mode"].state === "on" ?<Lock/> : <LockOpen />}</IconButton></Grid> */}
         </Grid>
 
       </Grid>
