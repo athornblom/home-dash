@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from 'react'
 
 
-const initialState = {name: 'allan ballan'};
 
 export const HassObj = React.createContext();
 

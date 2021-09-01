@@ -151,10 +151,10 @@ function ResponsiveDrawer({ window, children }) {
 
         <Grid item direction="row" justifyContent="center" alignItems="center" container className={classes.gridBox}>
           {/* <Grid item><IconButton className={store.hass.states["input_boolean.ai_home"].state === "off" ? classes.buttonOff : classes.buttonOn}><HomeAssistant /></IconButton></Grid> */}
-          <Grid item> <HassIconButton stateObj={store.hass.states["input_boolean.ai_home"]}> <HomeAssistant /> </HassIconButton></Grid>
+          <Grid item> <HassIconButton stateName="input_boolean.ai_home"> <HomeAssistant /> </HassIconButton></Grid>
           <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
-          <Grid item> <HassIconButton stateObj={store.hass.states["input_boolean.person_detection"]}> <PersonIcon /> </HassIconButton></Grid>
-          <Grid item> <HassIconButton stateObj={store.hass.states["input_boolean.guest_mode"]} lockedIcon={<Lock/>}> <LockOpen /> </HassIconButton></Grid>
+          <Grid item> <HassIconButton stateName="input_boolean.person_detection"> <PersonIcon /> </HassIconButton></Grid>  
+          <Grid item> <HassIconButton stateName="input_boolean.guest_mode" lockedIcon={<Lock/>}> <LockOpen /> </HassIconButton></Grid>
           {/* <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
           <Grid item><IconButton className={store.hass.states["input_boolean.person_detection"].state === "off" ? classes.buttonOff : classes.buttonOn}><PersonIcon /></IconButton></Grid>
           <Grid item><IconButton className={store.hass.states["input_boolean.guest_mode"].state === "on" ? classes.buttonOff : classes.buttonOn}>{store.hass.states["input_boolean.guest_mode"].state === "on" ?<Lock/> : <LockOpen />}</IconButton></Grid> */}

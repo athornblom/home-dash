@@ -59,7 +59,9 @@ function App({ hass, showMenu, narrow, panel }) {
   //   panel,
   // } = this.props;
   /* eslint-enable no-unused-vars */
-
+  useEffect(() =>{
+    console.log(hass)
+  },[])
 
   return (
     <Store hass={hass} panel={panel} className="App">
@@ -80,7 +82,7 @@ function App({ hass, showMenu, narrow, panel }) {
                 {"K\u00f6ket"}
               </Route>
               <Route path='/home-dash/demo'>
-                {console.log(hass)}
+                
                 <header className="App-header">
                   <h1 className="App-title">Welcome to the Djungle, {panel.config.name}</h1>
                 </header>
