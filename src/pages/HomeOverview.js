@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { HassObj } from '../hooks/Store'
 import { Typography, Grid } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Room from '../components/Room';
 
 const useStyles = makeStyles((theme) => ({
   root:{
@@ -39,9 +40,8 @@ function HomeOverview() {
                   //console.log( store.hass.states[room].attributes.friendly_name);
                   let roomObj = store.hass.states[room];
                   return (
-                  <Grid key={roomObj.entity_id} item xs={12} md={6} >
-                       <Typography variant="h5" > {roomObj.attributes.friendly_name}</Typography>
-                 </Grid>)
+                    <Room key={roomObj.entity_id} roomObj={roomObj}> </Room>
+                  )
                 })
               }
 
