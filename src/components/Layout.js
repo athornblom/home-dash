@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -23,9 +14,10 @@ import { HassObj } from '../hooks/Store';
 import { useContext } from 'react';
 import PersonIcon from '@material-ui/icons/Person';
 import ViewSelector from './ViewSelector';
-import { HomeAssistant, LockOpen, Lock } from 'mdi-material-ui';
+import { HomeAssistant, LockOpen, Lock, Door } from 'mdi-material-ui';
 import { SecurityOutlined } from '@material-ui/icons';
 import HassIconButton from './hassIconButton';
+import { hassRestCommand } from '../hassFunctions/hassRestCommand';
 
 
 const drawerWidth = 260;
@@ -89,7 +81,7 @@ const useStyles = makeStyles((theme, mobileOpen) => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
   },
-  pageContainer:{
+  pageContainer: {
     height: `calc(100% - 56px)`,
     [`${theme.breakpoints.up('xs')} and (orientation: landscape)`]: {
       height: `calc(100% - 48px)`,
@@ -98,12 +90,15 @@ const useStyles = makeStyles((theme, mobileOpen) => ({
       height: `calc(100% - 64px)`,
     }
   },
-  buttonOff:{
+  buttonOff: {
     color: theme.palette.error.main
   },
-  buttonOn:{
+  buttonOn: {
     color: theme.palette.success.main
 
+  },
+  secondaryIconBtn:{
+    color: theme.palette.text.secondary
   }
 
 }));
@@ -124,7 +119,6 @@ function ResponsiveDrawer({ window, children }) {
     <div>
 
       <Hidden smUp className={classes.toolbar}>
-
         <IconButton
           color="inherit"
           edge="end"
@@ -133,7 +127,6 @@ function ResponsiveDrawer({ window, children }) {
         >
           <CloseIcon />
         </IconButton>
-
       </Hidden>
       <Grid container direction="column" justifyContent="space-between" className={classes.drawerGrid}>
         <Grid item className={classes.gridBox}>
@@ -146,20 +139,22 @@ function ResponsiveDrawer({ window, children }) {
         </Grid>
 
         <Grid item>
-          <ViewSelector />
+          <ViewSelector setMobileOpen={setMobileOpen}/>
         </Grid>
 
-        <Grid item direction="row" justifyContent="center" alignItems="center" container className={classes.gridBox}>
-          {/* <Grid item><IconButton className={store.hass.states["input_boolean.ai_home"].state === "off" ? classes.buttonOff : classes.buttonOn}><HomeAssistant /></IconButton></Grid> */}
-          <Grid item> <HassIconButton stateName="input_boolean.ai_home"> <HomeAssistant /> </HassIconButton></Grid>
-          <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
-          <Grid item> <HassIconButton stateName="input_boolean.person_detection"> <PersonIcon /> </HassIconButton></Grid>  
-          <Grid item> <HassIconButton stateName="input_boolean.guest_mode" lockedIcon={<Lock/>}> <LockOpen /> </HassIconButton></Grid>
-          {/* <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
-          <Grid item><IconButton className={store.hass.states["input_boolean.person_detection"].state === "off" ? classes.buttonOff : classes.buttonOn}><PersonIcon /></IconButton></Grid>
-          <Grid item><IconButton className={store.hass.states["input_boolean.guest_mode"].state === "on" ? classes.buttonOff : classes.buttonOn}>{store.hass.states["input_boolean.guest_mode"].state === "on" ?<Lock/> : <LockOpen />}</IconButton></Grid> */}
-        </Grid>
+        <Grid container direction="column" className={classes.gridBox}>
+          <Grid item direction="row" justifyContent="center" alignItems="center" container >
+            <Grid item><IconButton onClick={() => hassRestCommand("sgs_door_rydb", store.hass)} className={classes.secondaryIconBtn}><Door fontSize={"large"}/></IconButton></Grid>
+            <Grid item><IconButton onClick={() => hassRestCommand("sgs_door_rich", store.hass)} className={classes.secondaryIconBtn}><Door fontSize={"large"}/></IconButton></Grid>
+          </Grid>
 
+          <Grid item direction="row" justifyContent="center" alignItems="center" container >
+            <Grid item> <HassIconButton stateName="input_boolean.ai_home"> <HomeAssistant /> </HassIconButton></Grid>
+            <Grid item><IconButton className={classes.buttonOn}><SecurityOutlined /></IconButton></Grid>
+            <Grid item> <HassIconButton stateName="input_boolean.person_detection"> <PersonIcon /> </HassIconButton></Grid>
+            <Grid item> <HassIconButton stateName="input_boolean.guest_mode" lockedIcon={<Lock />}> <LockOpen /> </HassIconButton></Grid>
+          </Grid>
+        </Grid>
       </Grid>
 
 
@@ -187,22 +182,22 @@ function ResponsiveDrawer({ window, children }) {
                 {store.hass.config.location_name}
               </Typography>
             </Grid>
-            <Grid  item xs={9} container alignItems='center' justifyContent='flex-end'>
+            <Grid item xs={9} container alignItems='center' justifyContent='flex-end'>
               <Grid item>
                 <IconButton>
-                <Typography>
-                  {store.hass.states["sensor.motion_hallway_temp"].state + store.hass.config.unit_system.temperature}
-                </Typography>
+                  <Typography>
+                    {store.hass.states["sensor.motion_hallway_temp"].state + store.hass.config.unit_system.temperature}
+                  </Typography>
                 </IconButton>
               </Grid>
               <Grid item>
-              <AvatarGroup max={smDevice ? (xsDevice ? 2 : 3) : 5}>
-                <Avatar alt="Remy Sharp" src={"/local/home-dash/img/avatars/thomas.png"} />
-                <Avatar alt="Travis Howard" src={"/local/home-dash/img/avatars/arthur.png"} />
-                <Avatar alt="Cindy Baker" src={"/local/home-dash/img/avatars/taylor.png"} />
-                <Avatar alt="Agnes Walker" src={"/local/home-dash/img/avatars/thomas.png"} />
-                <Avatar alt="Trevor Henderson" src={"/local/home-dash/img/avatars/thomas.png"} />
-              </AvatarGroup>
+                <AvatarGroup max={smDevice ? (xsDevice ? 2 : 3) : 5}>
+                  <Avatar alt="Remy Sharp" src={"/local/home-dash/img/avatars/thomas.png"} />
+                  <Avatar alt="Travis Howard" src={"/local/home-dash/img/avatars/arthur.png"} />
+                  <Avatar alt="Cindy Baker" src={"/local/home-dash/img/avatars/taylor.png"} />
+                  <Avatar alt="Agnes Walker" src={"/local/home-dash/img/avatars/thomas.png"} />
+                  <Avatar alt="Trevor Henderson" src={"/local/home-dash/img/avatars/thomas.png"} />
+                </AvatarGroup>
               </Grid>
 
             </Grid>
@@ -244,10 +239,10 @@ function ResponsiveDrawer({ window, children }) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div className={classes.pageContainer}>
-         {children}   
+          {children}
         </div>
-             
-                
+
+
       </main>
     </div>
   );

@@ -1,8 +1,4 @@
 
-import { HassObj } from '../hooks/Store';
-import { useContext } from 'react';
-
-
 export function hassToggle(stateName, hassObj) {
     if( hassObj === undefined || hassObj === null){
         console.log("The hass object is wrong " + hassObj)

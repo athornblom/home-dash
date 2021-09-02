@@ -2,7 +2,7 @@
   "name": "homeassistant-react-dashboard",
   "version": "1.0.0",
   "license": "ISC",
-  "panelServingUrl": "/local/my-panel",
+  "panelServingUrl": "/local/home-dash",
   "scripts": {
     "start": "webpack serve --watch-content-base",
     "build": "SET NODE_ENV=production && webpack"

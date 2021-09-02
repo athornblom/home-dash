@@ -10,6 +10,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import axios from 'axios'
 import { useEffect } from 'react';
 
+
 const theme = (darkMode) => createTheme({
   palette: {
     type: darkMode ? 'dark' : 'light',
@@ -67,6 +68,7 @@ function App({ hass, showMenu, narrow, panel }) {
     <Store hass={hass} panel={panel} className="App">
       <ThemeProvider theme={theme(hass.themes.darkMode)}>
         <CssBaseline />
+        {hass && 
         <BrowserRouter >
           <Layout>
             <Switch>
@@ -80,6 +82,9 @@ function App({ hass, showMenu, narrow, panel }) {
               </Route>
               <Route path='/home-dash/devices'>
                 {"K\u00f6ket"}
+              </Route>
+              <Route path='/home-dash/busses'>
+              <iframe style={{border : "none"}} height="100%" width="100%" src={panel.config.bussStation} title="description"></iframe>
               </Route>
               <Route path='/home-dash/demo'>
                 
@@ -99,7 +104,7 @@ function App({ hass, showMenu, narrow, panel }) {
               </Route>
             </Switch>
           </Layout>
-        </BrowserRouter>
+        </BrowserRouter>}
       </ThemeProvider>
     </Store>
   );
