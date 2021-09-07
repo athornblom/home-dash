@@ -30,7 +30,7 @@ function Room({ roomObj }) {
     if (roomObj !== undefined && store) {
         const lightGroupName = roomObj.attributes.entity_id.find(entity => entity.startsWith('light.'))
         if (!store.hass.states[lightGroupName].attributes.entity_id)
-            alert("You have a light group in your Room group that does not exist")
+            console.log("You have a light group in your Room group that does not exist")
         else {
             const lightGroup = store.hass.states[lightGroupName].attributes.entity_id
 
@@ -64,7 +64,7 @@ function Room({ roomObj }) {
             )
         }
     }
-    return ("Room Object undefined")
+    return (null)
 }
 
 export default Room
